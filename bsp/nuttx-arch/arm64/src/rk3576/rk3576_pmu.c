@@ -19,6 +19,11 @@ void rk3576_pmu_init(void)
 
 void rk3576_pmu_pd_enable(int pd)
 {
+  if (pd < 0 || pd >= 16)
+    {
+      return;
+    }
+
   uint32_t val = getreg32(RK3576_PMU_ADDR + PMU_PD_CON);
   val &= ~(3 << (pd * 2));
   val |= (PMU_PD_ON << (pd * 2));
@@ -27,6 +32,11 @@ void rk3576_pmu_pd_enable(int pd)
 
 void rk3576_pmu_pd_disable(int pd)
 {
+  if (pd < 0 || pd >= 16)
+    {
+      return;
+    }
+
   uint32_t val = getreg32(RK3576_PMU_ADDR + PMU_PD_CON);
   val &= ~(3 << (pd * 2));
   val |= (PMU_PD_OFF << (pd * 2));

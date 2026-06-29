@@ -297,6 +297,7 @@ int rk3576_dmac_transfer(int ch, const struct rk3576_dma_xfer_s *xfer)
 
   /* Enable channel */
 
+  putreg32(DMA_CHEN_EN(ch), g_dmac_base + DMA_CHEN);
   g_dma_ch_state[ch] = DMA_CH_ACTIVE;
 
   dmainfo("DMA%d: transfer %u bytes, mode %d\n", ch, xfer->length, xfer->mode);

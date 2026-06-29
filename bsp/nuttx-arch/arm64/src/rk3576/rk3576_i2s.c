@@ -412,11 +412,11 @@ int rk3576_i2s_set_channels(int bus, int channels)
 
   if (channels == 1)
     {
-      rxcr |= I2S_TXCR_STR_MONO;
+      rxcr |= I2S_RXCR_STR_MONO;
     }
   else
     {
-      rxcr |= I2S_TXCR_STR_STEREO;
+      rxcr |= I2S_RXCR_STR_STEREO;
     }
 
   putreg32(rxcr, base + I2S_RXCR);

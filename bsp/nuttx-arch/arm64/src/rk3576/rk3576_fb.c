@@ -156,6 +156,15 @@ int rk3576_fb_init(int vop)
       return -ENOMEM;
     }
 
+  /* Verify framebuffer address fits in 32-bit DMA address space */
+
+  if ((uintptr_t)fb->fbmem > 0xFFFFFFFF)
+    {
+      _err("FB: Framebuffer address exceeds 32-bit DMA range\n");
+      kmm_free(fb->fbmem);
+      return -ENOMEM;
+    }
+
   fb->paddr = (uint32_t)(uintptr_t)fb->fbmem;
 
   /* Setup NuttX framebuffer interface */
@@ -167,14 +176,27 @@ int rk3576_fb_init(int vop)
 
   /* Configure VOP */
 
-  rk3576_vop_init(vop);
+  ret = rk3576_vop_init(vop);
+  if (ret < 0)
+    {
+      _err("FB: VOP init failed: %d\n", ret);
+      kmm_free(fb->fbmem);
+      return ret;
+    }
+
   rk3576_vop_set_resolution(vop, CONFIG_RK3576_FB_WIDTH,
                              CONFIG_RK3576_FB_HEIGHT);
   rk3576_vop_set_framebuffer(vop, fb->paddr);
 
   /* Enable VOP */
 
-  rk3576_vop_enable(vop);
+  ret = rk3576_vop_enable(vop);
+  if (ret < 0)
+    {
+      _err("FB: VOP enable failed: %d\n", ret);
+      kmm_free(fb->fbmem);
+      return ret;
+    }
 
   /* Register NuttX framebuffer device */
 

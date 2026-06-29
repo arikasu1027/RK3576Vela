@@ -157,11 +157,28 @@ int rk3576_rtc_get_time(struct tm *tm)
       }
   }
 
-  /* Read time registers */
+  /* Read time registers atomically by retrying if values change */
 
-  tm->tm_sec = (int)(getreg32(g_rtc_base + RTC_SECONDS) & 0x3f);
-  tm->tm_min = (int)(getreg32(g_rtc_base + RTC_MINUTES) & 0x3f);
-  tm->tm_hour = (int)(getreg32(g_rtc_base + RTC_HOURS) & 0x1f);
+  {
+    uint32_t sec1, sec2, min1, min2, hr1, hr2;
+    int retries = 3;
+
+    do
+      {
+        sec1 = getreg32(g_rtc_base + RTC_SECONDS) & 0x3f;
+        min1 = getreg32(g_rtc_base + RTC_MINUTES) & 0x3f;
+        hr1  = getreg32(g_rtc_base + RTC_HOURS) & 0x1f;
+
+        sec2 = getreg32(g_rtc_base + RTC_SECONDS) & 0x3f;
+        min2 = getreg32(g_rtc_base + RTC_MINUTES) & 0x3f;
+        hr2  = getreg32(g_rtc_base + RTC_HOURS) & 0x1f;
+      }
+    while ((sec1 != sec2 || min1 != min2 || hr1 != hr2) && --retries > 0);
+
+    tm->tm_sec = (int)sec2;
+    tm->tm_min = (int)min2;
+    tm->tm_hour = (int)hr2;
+  }
   tm->tm_mday = (int)(getreg32(g_rtc_base + RTC_DAYS) & 0x1f);
   tm->tm_mon = (int)(getreg32(g_rtc_base + RTC_MONTHS) & 0x0f) - 1;
   tm->tm_year = (int)(getreg32(g_rtc_base + RTC_YEARS) & 0xff);

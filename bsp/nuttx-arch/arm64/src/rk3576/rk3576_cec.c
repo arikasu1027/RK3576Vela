@@ -19,7 +19,7 @@
 
 #ifdef CONFIG_RK3576_CEC
 
-#define CEC_BASE                0xff3e0000
+#define CEC_BASE                (RK3576_CEC_ADDR + 0x400)
 
 #define CEC_CTRL                0x0000
 #define CEC_STATUS              0x0004

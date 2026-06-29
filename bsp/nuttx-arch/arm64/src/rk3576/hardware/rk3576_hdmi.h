@@ -136,6 +136,7 @@
 #define HDMI_PHY_CTRL_MODE_SHIFT   4
 #define HDMI_PHY_CTRL_MODE_MASK    (0xf << HDMI_PHY_CTRL_MODE_SHIFT)
 #define HDMI_PHY_CTRL_MODE_TMDS    (0 << HDMI_PHY_CTRL_MODE_SHIFT)
+#define HDMI_PHY_CTRL_MODE_HDMI    (1 << HDMI_PHY_CTRL_MODE_SHIFT)
 
 /****************************************************************************
  * HDMI PHY_STATUS bit definitions

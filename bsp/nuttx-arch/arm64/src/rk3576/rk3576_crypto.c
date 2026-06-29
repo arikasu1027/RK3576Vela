@@ -4,6 +4,8 @@
 
 #include <nuttx/config.h>
 #include <stdint.h>
+#include <stdbool.h>
+#include <errno.h>
 #include <string.h>
 #include <debug.h>
 #include <nuttx/arch.h>
@@ -57,6 +59,13 @@ int rk3576_crypto_aes_encrypt(int mode, int keybits,
     putreg32(((uint32_t)key[i*4] | (key[i*4+1] << 8) |
              (key[i*4+2] << 16) | (key[i*4+3] << 24)),
              base + CRYPTO_AES_KEY + i * 4);
+
+  /* Verify addresses fit in 32-bit DMA address space */
+
+  if ((uintptr_t)src > 0xFFFFFFFF || (uintptr_t)dst > 0xFFFFFFFF)
+    {
+      return -EINVAL;
+    }
 
   putreg32((uint32_t)(uintptr_t)src, base + CRYPTO_AES_SRC_ADDR);
   putreg32((uint32_t)(uintptr_t)dst, base + CRYPTO_AES_DST_ADDR);

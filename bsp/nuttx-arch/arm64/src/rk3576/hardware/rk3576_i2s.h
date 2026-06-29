@@ -104,6 +104,8 @@
 #define I2S_RXCR_DFS_MASK          (3 << I2S_RXCR_DFS_SHIFT)
 #define I2S_RXCR_STR_SHIFT         16
 #define I2S_RXCR_STR_MASK          (3 << I2S_RXCR_STR_SHIFT)
+#define I2S_RXCR_STR_STEREO        (0 << I2S_RXCR_STR_SHIFT)
+#define I2S_RXCR_STR_MONO          (1 << I2S_RXCR_STR_SHIFT)
 #define I2S_RXCR_RXEN              (1 << 18)
 #define I2S_RXCR_RXHALF            (1 << 19)
 

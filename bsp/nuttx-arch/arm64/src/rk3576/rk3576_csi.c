@@ -30,6 +30,16 @@
  * Private Types
  ***************************************************************************/
 
+/***************************************************************************
+ * Private Data
+ ***************************************************************************/
+
+const uint32_t g_csi_base[RK3576_CSI_COUNT] =
+{
+  RK3576_CSI0_ADDR,
+  RK3576_CSI1_ADDR,
+};
+
 struct rk3576_csi_s
 {
   bool enabled;
@@ -359,6 +369,22 @@ int rk3576_csi_start_capture(int csi)
   /* Enable frame start and end interrupts */
 
   rk3576_csi_enable_irq(csi, CSI_INT_FRAME_START | CSI_INT_FRAME_END);
+
+  /* Poll for frame done (simplified, no ISR) */
+
+  int timeout = 100;
+  while (timeout-- && !g_csi[csi].frame_done)
+    {
+      uint32_t status = rk3576_csi_get_status(csi);
+      if (status & CSI_INT_FRAME_END)
+        {
+          rk3576_csi_clear_status(csi, CSI_INT_FRAME_END);
+          g_csi[csi].frame_done = true;
+          break;
+        }
+
+      up_udelay(100);
+    }
 
   uinfo("CSI%d: capture started\n", csi);
   return OK;

@@ -179,15 +179,15 @@ static int rk3576_hdmi_config_phy(uint32_t pixel_clock)
 
   if (pixel_clock <= 74250000)
     {
-      /* Low-speed mode */
+      /* Low-speed mode (TMDS) — up to 74.25 MHz */
 
       ctrl |= HDMI_PHY_CTRL_MODE_TMDS;
     }
   else
     {
-      /* High-speed mode */
+      /* High-speed mode (HDMI) — above 74.25 MHz */
 
-      ctrl |= HDMI_PHY_CTRL_MODE_TMDS;
+      ctrl |= HDMI_PHY_CTRL_MODE_HDMI;
     }
 
   putreg32(ctrl, g_hdmi_base + HDMI_PHY_CTRL);

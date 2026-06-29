@@ -17,7 +17,7 @@
 
 #ifdef CONFIG_RK3576_SPDIF
 
-#define SPDIF_BASE              0xfe550000
+#define SPDIF_BASE              RK3576_SPDIF_ADDR
 
 #define SPDIF_CTRL              0x0000
 #define SPDIF_SFCR              0x0004

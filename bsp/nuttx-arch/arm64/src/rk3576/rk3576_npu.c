@@ -13,7 +13,7 @@
 #include "hardware/rk3576_npu.h"
 #include "rk3576_npu.h"
 
-void rk3576_npu_init(void)
+int rk3576_npu_init(void)
 {
   uint32_t base = RK3576_NPU_ADDR;
 
@@ -26,6 +26,16 @@ void rk3576_npu_init(void)
   putreg32(NPU_CLK_EN_CORE | NPU_CLK_EN_AXI | NPU_CLK_EN_AHB,
            base + NPU_CLK_EN);
 
+  /* Verify clock enable */
+
+  uint32_t clk = getreg32(base + NPU_CLK_EN);
+  if ((clk & (NPU_CLK_EN_CORE | NPU_CLK_EN_AXI | NPU_CLK_EN_AHB)) !=
+      (NPU_CLK_EN_CORE | NPU_CLK_EN_AXI | NPU_CLK_EN_AHB))
+    {
+      nerr("NPU: clock enable failed\n");
+      return -EIO;
+    }
+
   /* Clear interrupts */
 
   putreg32(0xffffffff, base + NPU_INTCLR);
@@ -34,7 +44,8 @@ void rk3576_npu_init(void)
 
   putreg32(0, base + NPU_INTEN);
 
-  ginfo("NPU: initialized\n");
+  ninfo("NPU: initialized\n");
+  return OK;
 }
 
 void rk3576_npu_enable(void)

@@ -49,7 +49,6 @@
 
 /* Register access helpers */
 
-#define PWM_REG(base, offset)      (*(volatile uint32_t *)((base) + (offset)))
 
 /****************************************************************************
  * Private Data

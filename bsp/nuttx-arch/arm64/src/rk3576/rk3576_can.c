@@ -137,6 +137,13 @@ int rk3576_can_send(int can, const struct rk3576_can_msg_s *msg)
 
   base = g_can_base[can];
 
+  /* Populate TX buffer element 0 with message data */
+
+  for (int i = 0; i < msg->dlc && i < 8; i++)
+    {
+      putreg32(msg->data[i], base + 0x100 + (i * 4));
+    }
+
   /* Request transmission on buffer 0 */
 
   putreg32(1 << 0, base + CAN_TXBAR);
@@ -179,7 +186,22 @@ int rk3576_can_receive(int can, struct rk3576_can_msg_s *msg)
 
   /* Read message from FIFO 0 */
 
-  memset(msg, 0, sizeof(*msg));
+  uint32_t fifo_addr = base + 0x200;
+
+  /* Parse header word */
+
+  uint32_t hdr = getreg32(fifo_addr);
+  msg->id = (hdr >> 9) & 0x7ff;
+  msg->extended = (hdr >> 30) & 1;
+  msg->rtr = (hdr >> 29) & 1;
+  msg->dlc = (hdr >> 16) & 0x0f;
+
+  /* Read payload data */
+
+  for (int i = 0; i < msg->dlc && i < 8; i++)
+    {
+      msg->data[i] = (uint8_t)(getreg32(fifo_addr + 8 + (i * 4)) & 0xff);
+    }
 
   /* Acknowledge FIFO 0 read */
 

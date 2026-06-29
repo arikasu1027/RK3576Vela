@@ -175,17 +175,17 @@ static void rk3576_eth_set_mac_filter(int port)
 {
   uint32_t base = g_eth_base[port];
 
-  /* Set MAC address into MAC_ADDRESS registers */
+  /* Set MAC address into MAC address filter registers (DWC offset 0x400) */
 
   putreg32((uint32_t)g_eth_dev[port].mac[0] |
            ((uint32_t)g_eth_dev[port].mac[1] << 8) |
            ((uint32_t)g_eth_dev[port].mac[2] << 16) |
            ((uint32_t)g_eth_dev[port].mac[3] << 24),
-           base + ETH_HASH_TABLE_REG(0));
+           base + 0x400);
 
   putreg32((uint32_t)g_eth_dev[port].mac[4] |
            ((uint32_t)g_eth_dev[port].mac[5] << 8),
-           base + ETH_HASH_TABLE_REG(1));
+           base + 0x404);
 }
 
 /****************************************************************************

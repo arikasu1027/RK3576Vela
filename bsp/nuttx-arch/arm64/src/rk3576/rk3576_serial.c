@@ -483,6 +483,7 @@ static int rk3576_uart_setup(struct uart_dev_s *dev)
   /* Set the BAUD divisor */
 
   dl = rk3576_uart_divisor(data->baud_rate);
+  putreg32(0, config->uart + RK3576_UART_DLH_OFFSET);
   putreg32(dl & 0xffff,
            config->uart + RK3576_UART_DLL_OFFSET);
 
@@ -609,12 +610,30 @@ static int rk3576_uart_ioctl(struct file *filep, int cmd, unsigned long arg)
 {
   int ret = OK;
 
-  UNUSED(filep);
-
   switch (cmd)
     {
       case TIOCSBRK:
+        {
+          struct inode *inode = filep->f_inode;
+          struct uart_dev_s *dev = inode->i_private;
+          struct rk3576_uart_port_s *port =
+            (struct rk3576_uart_port_s *)dev->priv;
+          uint32_t lcr = rk3576_uart_lcr(port->config.uart);
+          rk3576_uart_lcr_set(port->config.uart, lcr | RK3576_UART_LCR_BC);
+          break;
+        }
+
       case TIOCCBRK:
+        {
+          struct inode *inode = filep->f_inode;
+          struct uart_dev_s *dev = inode->i_private;
+          struct rk3576_uart_port_s *port =
+            (struct rk3576_uart_port_s *)dev->priv;
+          uint32_t lcr = rk3576_uart_lcr(port->config.uart);
+          rk3576_uart_lcr_set(port->config.uart, lcr & ~RK3576_UART_LCR_BC);
+          break;
+        }
+
       default:
         {
           ret = -ENOTTY;
@@ -719,20 +738,39 @@ static int rk3576_uart_ioctl(struct file *filep, int cmd, unsigned long arg)
 
           data->baud_rate = termiosp->c_ospeed;
 
+          /* Flush stale FIFO data before baud rate change */
+
+          {
+            struct rk3576_uart_port_s *port =
+              (struct rk3576_uart_port_s *)dev->priv;
+            putreg32(RK3576_UART_FCR_RFIFOR | RK3576_UART_FCR_XFIFOR,
+                     port->config.uart + RK3576_UART_FCR_OFFSET);
+          }
+
           ret = rk3576_uart_setup(dev);
           break;
         }
 
       case TIOCMGET:
         {
+          if (arg == NULL)
+            {
+              ret = -EINVAL;
+              break;
+            }
+
           struct inode *inode = filep->f_inode;
           struct uart_dev_s *dev = inode->i_private;
           struct rk3576_uart_port_s *port =
             (struct rk3576_uart_port_s *)dev->priv;
           uint32_t mcr = rk3576_uart_mcr(port->config.uart);
+          uint32_t msr = rk3576_uart_msr(port->config.uart);
           int *pins = (int *)arg;
 
           *pins = 0;
+
+          /* Output signals from MCR */
+
           if (mcr & RK3576_UART_MCR_DTR)
             {
               *pins |= TIOCM_DTR;
@@ -743,11 +781,39 @@ static int rk3576_uart_ioctl(struct file *filep, int cmd, unsigned long arg)
               *pins |= TIOCM_RTS;
             }
 
+          /* Input signals from MSR */
+
+          if (msr & (1 << 0))  /* CTS */
+            {
+              *pins |= TIOCM_CTS;
+            }
+
+          if (msr & (1 << 1))  /* DSR */
+            {
+              *pins |= TIOCM_DSR;
+            }
+
+          if (msr & (1 << 2))  /* RI */
+            {
+              *pins |= TIOCM_RI;
+            }
+
+          if (msr & (1 << 3))  /* DCD */
+            {
+              *pins |= TIOCM_CD;
+            }
+
           break;
         }
 
       case TIOCMSET:
         {
+          if (arg == NULL)
+            {
+              ret = -EINVAL;
+              break;
+            }
+
           struct inode *inode = filep->f_inode;
           struct uart_dev_s *dev = inode->i_private;
           struct rk3576_uart_port_s *port =

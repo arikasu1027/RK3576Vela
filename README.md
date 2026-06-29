@@ -1,6 +1,6 @@
-# RK3576 NuttX BSP for KICKPI-K7
+# RK3576 openvela NuttX BSP for KICKPI-K7
 
-RK3576 (Rockchip) NuttX RTOS Board Support Package for the KICKPI-K7 development board.
+RK3576 (Rockchip) open vela NuttX RTOS Board Support Package for the KICKPI-K7 development board.
 
 ## Features
 
@@ -116,3 +116,7 @@ make -j$(nproc)
 ## License
 
 Apache License 2.0
+
+## Attention
+
+Powered By Mimocode & Xiaomi MiMo

@@ -11,7 +11,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-void rk3576_npu_init(void);
+int rk3576_npu_init(void);
 void rk3576_npu_enable(void);
 void rk3576_npu_disable(void);
 void rk3576_npu_reset(void);

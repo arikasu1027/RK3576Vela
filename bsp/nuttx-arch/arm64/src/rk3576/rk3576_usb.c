@@ -532,7 +532,7 @@ int rk3576_usb_host_connect(int port)
   g_usb_dev[port].speed = RK3576_USB_SPEED_HIGH;
 
   uinfo("USB%d: device connected (speed=%s)\n", port,
-          g_usb_dev[port].speed == 0 ? "high" : "full");
+          g_usb_dev[port].speed == 0 ? "full" : "high");
 
   return OK;
 }
