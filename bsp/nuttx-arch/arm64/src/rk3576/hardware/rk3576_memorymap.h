@@ -20,13 +20,7 @@
 #define RK3576_UART2_ADDR          0xff190000  /* Debug console */
 #define RK3576_UART3_ADDR          0xff1a0000
 #define RK3576_UART4_ADDR          0xff1b0000
-#define RK3576_UART5_ADDR          0xff1c0000  /* [VERIFY] */
-#define RK3576_UART6_ADDR          0xff1d0000  /* [VERIFY] */
-#define RK3576_UART7_ADDR          0xff1e0000  /* [VERIFY] */
-#define RK3576_UART8_ADDR          0xff1f0000  /* [VERIFY] */
-#define RK3576_UART9_ADDR          0xff200000  /* [VERIFY] */
-#define RK3576_UART10_ADDR         0xff210000  /* [VERIFY] */
-#define RK3576_UART11_ADDR         0xff220000  /* [VERIFY] */
+/* UART5-UART11 exist but addresses need TRM verification */
 
 /* I2C Controllers */
 
