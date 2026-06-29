@@ -1,0 +1,29 @@
+# Build outputs
+bsp/nuttx
+bsp/nuttx.map
+*.o
+*.a
+*.d
+*.elf
+*.bin
+*.img
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# NuttX build
+nuttx/
+nuttx.bin
+nuttx.hex
+.nxconfig
+.depend
+.dirlinks
+*.pdf
