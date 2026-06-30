@@ -8,10 +8,16 @@
 #include <nuttx/config.h>
 #include <stdint.h>
 
+#ifndef __ASSEMBLY__
+
+
+
 void rk3576_spiflash_init(void);
 int  rk3576_spiflash_read(uint32_t addr, uint8_t *buf, uint32_t len);
 int  rk3576_spiflash_write(uint32_t addr, const uint8_t *buf, uint32_t len);
 int  rk3576_spiflash_erase(uint32_t addr, uint32_t len);
 void rk3576_spiflash_read_id(uint8_t *mfg, uint8_t *type);
+
+#endif /* __ASSEMBLY__ */
 
 #endif

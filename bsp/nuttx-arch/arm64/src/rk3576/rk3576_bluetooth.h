@@ -11,9 +11,15 @@
 #include <nuttx/config.h>
 #include <stdint.h>
 
+#ifndef __ASSEMBLY__
+
+
+
 int rk3576_bluetooth_init(int uart);
 int rk3576_bluetooth_send(uint8_t type, const uint8_t *data, int len);
 int rk3576_bluetooth_read(uint8_t *buf, int maxlen, int timeout_ms);
 void rk3576_bluetooth_enable(bool enable);
+
+#endif /* __ASSEMBLY__ */
 
 #endif

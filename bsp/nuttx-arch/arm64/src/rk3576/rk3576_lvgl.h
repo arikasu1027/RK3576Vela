@@ -10,6 +10,10 @@
 
 #include <nuttx/config.h>
 
+#ifndef __ASSEMBLY__
+
+
+
 #ifdef CONFIG_RK3576_LVGL
 
 int  rk3576_lvgl_init(void);
@@ -21,5 +25,7 @@ void rk3576_lvgl_task(void);
 #define rk3576_lvgl_task()  ((void)0)
 
 #endif
+
+#endif /* __ASSEMBLY__ */
 
 #endif

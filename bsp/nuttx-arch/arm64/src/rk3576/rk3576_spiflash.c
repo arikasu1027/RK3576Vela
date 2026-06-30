@@ -13,7 +13,7 @@
 
 #define SF_TIMEOUT 10000
 
-static int sf_wait_ready(void)
+static int rk3576_sf_wait_ready(void)
 {
   int timeout = SF_TIMEOUT;
   while (timeout--)
@@ -25,12 +25,12 @@ static int sf_wait_ready(void)
   return -ETIMEDOUT;
 }
 
-static void sf_write_enable(void)
+static void rk3576_sf_write_enable(void)
 {
   putreg32(0x06, RK3576_SPIFLASH_ADDR + SF_DATA);
   putreg32(1, RK3576_SPIFLASH_ADDR + SF_LEN);
   putreg32(SF_CTRL_EN | SF_CTRL_DIR_WRITE, RK3576_SPIFLASH_ADDR + SF_CTRL);
-  sf_wait_ready();
+  rk3576_sf_wait_ready();
 }
 
 void rk3576_spiflash_init(void)
@@ -44,7 +44,7 @@ void rk3576_spiflash_read_id(uint8_t *mfg, uint8_t *type)
   putreg32(0x9f, RK3576_SPIFLASH_ADDR + SF_DATA);
   putreg32(3, RK3576_SPIFLASH_ADDR + SF_LEN);
   putreg32(SF_CTRL_EN | SF_CTRL_DIR_READ, RK3576_SPIFLASH_ADDR + SF_CTRL);
-  sf_wait_ready();
+  rk3576_sf_wait_ready();
   uint32_t data = getreg32(RK3576_SPIFLASH_ADDR + SF_DATA);
   if (mfg) *mfg = (uint8_t)(data & 0xff);
   if (type) *type = (uint8_t)((data >> 8) & 0xff);
@@ -57,7 +57,7 @@ int rk3576_spiflash_read(uint32_t addr, uint8_t *buf, uint32_t len)
   putreg32(addr, RK3576_SPIFLASH_ADDR + SF_ADDR);
   putreg32(len, RK3576_SPIFLASH_ADDR + SF_LEN);
   putreg32(SF_CTRL_EN | SF_CTRL_DIR_READ, RK3576_SPIFLASH_ADDR + SF_CTRL);
-  sf_wait_ready();
+  rk3576_sf_wait_ready();
   for (uint32_t i = 0; i < len; i += 4)
     {
       uint32_t word = getreg32(RK3576_SPIFLASH_ADDR + SF_DATA);
@@ -71,7 +71,7 @@ int rk3576_spiflash_read(uint32_t addr, uint8_t *buf, uint32_t len)
 
 int rk3576_spiflash_write(uint32_t addr, const uint8_t *buf, uint32_t len)
 {
-  sf_write_enable();
+  rk3576_sf_write_enable();
   for (uint32_t i = 0; i < len; i += 4)
     {
       uint32_t word = buf[i] | (buf[i + 1] << 8) |
@@ -82,17 +82,17 @@ int rk3576_spiflash_write(uint32_t addr, const uint8_t *buf, uint32_t len)
   putreg32(addr, RK3576_SPIFLASH_ADDR + SF_ADDR);
   putreg32(len, RK3576_SPIFLASH_ADDR + SF_LEN);
   putreg32(SF_CTRL_EN | SF_CTRL_DIR_WRITE, RK3576_SPIFLASH_ADDR + SF_CTRL);
-  sf_wait_ready();
+  rk3576_sf_wait_ready();
   return OK;
 }
 
 int rk3576_spiflash_erase(uint32_t addr, uint32_t len)
 {
-  sf_write_enable();
+  rk3576_sf_write_enable();
   putreg32(0xd8, RK3576_SPIFLASH_ADDR + SF_DATA);
   putreg32(addr, RK3576_SPIFLASH_ADDR + SF_ADDR);
   putreg32(len, RK3576_SPIFLASH_ADDR + SF_LEN);
   putreg32(SF_CTRL_EN | SF_CTRL_DIR_WRITE, RK3576_SPIFLASH_ADDR + SF_CTRL);
-  sf_wait_ready();
+  rk3576_sf_wait_ready();
   return OK;
 }

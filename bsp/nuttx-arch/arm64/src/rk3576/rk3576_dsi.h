@@ -12,6 +12,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#ifndef __ASSEMBLY__
+
+
+
 #define RK3576_DSI0              0
 #define RK3576_DSI1              1
 
@@ -83,5 +87,7 @@ int rk3576_dcs_read(int dsi, uint8_t cmd, uint8_t *data, int len);
 /* Panel initialization */
 
 int rk3576_dsi_panel_init(int dsi, const struct rk3576_dsi_panel_s *panel);
+
+#endif /* __ASSEMBLY__ */
 
 #endif

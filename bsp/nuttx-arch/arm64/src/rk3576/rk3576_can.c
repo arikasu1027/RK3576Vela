@@ -34,7 +34,7 @@ const uint32_t g_can_base[RK3576_CAN_COUNT] =
   RK3576_CAN1_ADDR,
 };
 
-static int can_set_mode(int can, bool init_mode)
+static int rk3576_can_set_mode(int can, bool init_mode)
 {
   uint32_t base = g_can_base[can];
   uint32_t ccr = getreg32(base + CAN_CCCR);
@@ -94,7 +94,7 @@ int rk3576_can_set_bitrate(int can, int bitrate)
 
   /* Enter init mode */
 
-  int ret = can_set_mode(can, true);
+  int ret = rk3576_can_set_mode(can, true);
   if (ret < 0)
     {
       return ret;
@@ -120,7 +120,7 @@ int rk3576_can_set_bitrate(int can, int bitrate)
 
   /* Leave init mode */
 
-  ret = can_set_mode(can, false);
+  ret = rk3576_can_set_mode(can, false);
 
   ginfo("CAN%d: bitrate set to %d\n", can, bitrate);
   return ret;

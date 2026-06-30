@@ -11,11 +11,17 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#ifndef __ASSEMBLY__
+
+
+
 int rk3576_npu_init(void);
 void rk3576_npu_enable(void);
 void rk3576_npu_disable(void);
 void rk3576_npu_reset(void);
 bool rk3576_npu_is_busy(void);
 uint32_t rk3576_npu_get_status(void);
+
+#endif /* __ASSEMBLY__ */
 
 #endif

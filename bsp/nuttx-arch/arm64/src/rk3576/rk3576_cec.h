@@ -10,10 +10,16 @@
 #include <nuttx/config.h>
 #include <stdint.h>
 
+#ifndef __ASSEMBLY__
+
+
+
 int rk3576_cec_init(void);
 int rk3576_cec_enable(void);
 int rk3576_cec_disable(void);
 int rk3576_cec_send(const uint8_t *data, int len);
 int rk3576_cec_receive(uint8_t *data, int maxlen);
+
+#endif /* __ASSEMBLY__ */
 
 #endif

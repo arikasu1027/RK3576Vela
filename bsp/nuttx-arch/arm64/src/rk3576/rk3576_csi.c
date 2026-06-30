@@ -61,11 +61,11 @@ static struct rk3576_csi_s g_csi[RK3576_CSI_COUNT];
  * Private Functions
  ***************************************************************************/
 
-static int csi_wait_clear(uint32_t base, uint32_t reg, uint32_t mask,
+static int rk3576_csi_wait_clear(uint32_t base, uint32_t reg, uint32_t mask,
                            int timeout_ms)
   __attribute__((unused));
 
-static int csi_wait_clear(uint32_t base, uint32_t reg, uint32_t mask,
+static int rk3576_csi_wait_clear(uint32_t base, uint32_t reg, uint32_t mask,
                            int timeout_ms)
 {
   int timeout;
@@ -83,7 +83,7 @@ static int csi_wait_clear(uint32_t base, uint32_t reg, uint32_t mask,
   return -ETIMEDOUT;
 }
 
-static void cphy_init(uint32_t base, int lanes)
+static void rk3576_cphy_init(uint32_t base, int lanes)
 {
   uint32_t val;
 
@@ -172,7 +172,7 @@ int rk3576_csi_enable(int csi)
 
   /* Initialize C-PHY */
 
-  cphy_init(base, g_csi[csi].lanes);
+  rk3576_cphy_init(base, g_csi[csi].lanes);
 
   /* Configure data type */
 

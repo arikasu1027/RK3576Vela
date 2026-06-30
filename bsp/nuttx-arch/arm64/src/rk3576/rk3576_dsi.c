@@ -61,7 +61,7 @@ static struct rk3576_dsi_s g_dsi[RK3576_DSI_COUNT];
  * Private Functions
  ***************************************************************************/
 
-static int dsi_phy_wait_lock(uint32_t base)
+static int rk3576_dsi_phy_wait_lock(uint32_t base)
 {
   int timeout;
 
@@ -79,7 +79,7 @@ static int dsi_phy_wait_lock(uint32_t base)
   return -ETIMEDOUT;
 }
 
-static int dsi_wait_cmd_done(uint32_t base)
+static int rk3576_dsi_wait_cmd_done(uint32_t base)
 {
   int timeout;
 
@@ -100,13 +100,13 @@ static int dsi_wait_cmd_done(uint32_t base)
   return -ETIMEDOUT;
 }
 
-static void dphy_test_write(uint32_t base, uint32_t addr, uint8_t data)
+static void rk3576_dphy_test_write(uint32_t base, uint32_t addr, uint8_t data)
   __attribute__((unused));
 
-static uint8_t dphy_test_read(uint32_t base, uint32_t addr)
+static uint8_t rk3576_dphy_test_read(uint32_t base, uint32_t addr)
   __attribute__((unused));
 
-static void dphy_test_write(uint32_t base, uint32_t addr, uint8_t data)
+static void rk3576_dphy_test_write(uint32_t base, uint32_t addr, uint8_t data)
 {
   /* Set test mode: write */
 
@@ -123,7 +123,7 @@ static void dphy_test_write(uint32_t base, uint32_t addr, uint8_t data)
   putreg32((0 << 1), base + DSI_PHY_TST_CTRL0);
 }
 
-static uint8_t dphy_test_read(uint32_t base, uint32_t addr)
+static uint8_t rk3576_dphy_test_read(uint32_t base, uint32_t addr)
 {
   /* Set test mode: read */
 
@@ -141,7 +141,7 @@ static uint8_t dphy_test_read(uint32_t base, uint32_t addr)
   return (uint8_t)(getreg32(base + DSI_PHY_TST_CTRL1) & 0xff);
 }
 
-static void dphy_init(uint32_t base, int lanes)
+static void rk3576_dphy_init(uint32_t base, int lanes)
 {
   /* Enable DPHY */
 
@@ -157,10 +157,10 @@ static void dphy_init(uint32_t base, int lanes)
 
   /* Wait for PHY lock */
 
-  dsi_phy_wait_lock(base);
+  rk3576_dsi_phy_wait_lock(base);
 }
 
-static void dphy_set_timing(uint32_t base, int lanes)
+static void rk3576_dphy_set_timing(uint32_t base, int lanes)
 {
   /* DPHY timing parameters for 1.5Gbps/lane */
 
@@ -237,8 +237,8 @@ int rk3576_dsi_enable(int dsi)
 
   /* Initialize DPHY */
 
-  dphy_init(base, g_dsi[dsi].lanes);
-  dphy_set_timing(base, g_dsi[dsi].lanes);
+  rk3576_dphy_init(base, g_dsi[dsi].lanes);
+  rk3576_dphy_set_timing(base, g_dsi[dsi].lanes);
 
   /* Configure color coding */
 
@@ -452,7 +452,7 @@ int rk3576_dsi_dcs_write(int dsi, uint8_t cmd, const uint8_t *params,
 
   /* Wait for command done */
 
-  ret = dsi_wait_cmd_done(base);
+  ret = rk3576_dsi_wait_cmd_done(base);
   return ret;
 }
 
@@ -476,7 +476,7 @@ int rk3576_dcs_read(int dsi, uint8_t cmd, uint8_t *data, int len)
 
   /* Wait for response */
 
-  ret = dsi_wait_cmd_done(base);
+  ret = rk3576_dsi_wait_cmd_done(base);
   if (ret < 0)
     {
       return ret;

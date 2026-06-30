@@ -13,7 +13,7 @@
 #include "hardware/rk3576_crypto.h"
 #include "rk3576_crypto.h"
 
-static int crypto_wait_done(uint32_t flag)
+static int rk3576_crypto_wait_done(uint32_t flag)
 {
   int timeout = 10000;
   while (timeout--)
@@ -71,7 +71,7 @@ int rk3576_crypto_aes_encrypt(int mode, int keybits,
   putreg32((uint32_t)(uintptr_t)dst, base + CRYPTO_AES_DST_ADDR);
   putreg32(CRYPTO_AES_ENABLE, base + CRYPTO_AES_STATUS);
 
-  return crypto_wait_done(CRYPTO_AES_ENABLE);
+  return rk3576_crypto_wait_done(CRYPTO_AES_ENABLE);
 }
 
 int rk3576_crypto_aes_decrypt(int mode, int keybits,
@@ -90,7 +90,7 @@ int rk3576_crypto_sha256(const uint8_t *src, uint32_t len, uint8_t *hash)
   putreg32((uint32_t)(uintptr_t)src, base + CRYPTO_SHA_SRC_ADDR);
   putreg32(CRYPTO_SHA_ENABLE, base + CRYPTO_SHA_STATUS);
 
-  int ret = crypto_wait_done(CRYPTO_SHA_ENABLE);
+  int ret = rk3576_crypto_wait_done(CRYPTO_SHA_ENABLE);
   if (ret < 0) return ret;
 
   for (int i = 0; i < 8; i++)

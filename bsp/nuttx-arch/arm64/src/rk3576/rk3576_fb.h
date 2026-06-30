@@ -11,6 +11,10 @@
 #include <nuttx/config.h>
 #include <stdint.h>
 
+#ifndef __ASSEMBLY__
+
+
+
 #ifdef CONFIG_RK3576_FB
 
 int      rk3576_fb_init(int vop);
@@ -22,5 +26,7 @@ uint8_t *rk3576_fb_getmem(void);
 #define rk3576_fb_getmem()    (NULL)
 
 #endif
+
+#endif /* __ASSEMBLY__ */
 
 #endif

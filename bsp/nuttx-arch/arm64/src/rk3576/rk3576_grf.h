@@ -10,6 +10,10 @@
 #include <nuttx/config.h>
 #include <stdint.h>
 
+#ifndef __ASSEMBLY__
+
+
+
 void rk3576_grf_init(void);
 
 /* Register access */
@@ -27,5 +31,7 @@ void rk3576_pmugrf_write(uint32_t offset, uint32_t value);
 
 uint32_t rk3576_sysgrf_read(uint32_t offset);
 void rk3576_sysgrf_write(uint32_t offset, uint32_t value);
+
+#endif /* __ASSEMBLY__ */
 
 #endif

@@ -11,6 +11,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#ifndef __ASSEMBLY__
+
+
+
 #define RK3576_PCIE0             0
 #define RK3576_PCIE1             1
 
@@ -20,5 +24,7 @@ int rk3576_pcie_disable(int pcie);
 bool rk3576_pcie_is_link_up(int pcie);
 uint32_t rk3576_pcie_read_config(int pcie, int bus, int dev, int func, int reg);
 void rk3576_pcie_write_config(int pcie, int bus, int dev, int func, int reg, uint32_t val);
+
+#endif /* __ASSEMBLY__ */
 
 #endif

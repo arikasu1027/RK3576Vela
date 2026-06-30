@@ -42,25 +42,25 @@ struct rk3576_bt_s
 
 static struct rk3576_bt_s g_bt;
 
-static int bt_write_reg(uint32_t addr, uint32_t val)
+static int rk3576_bt_write_reg(uint32_t addr, uint32_t val)
   __attribute__((unused));
-static uint32_t bt_read_reg(uint32_t addr)
+static uint32_t rk3576_bt_read_reg(uint32_t addr)
   __attribute__((unused));
-static void bt_delay(int ms)
+static void rk3576_bt_delay(int ms)
   __attribute__((unused));
 
-static int bt_write_reg(uint32_t addr, uint32_t val)
+static int rk3576_bt_write_reg(uint32_t addr, uint32_t val)
 {
   putreg32(val, addr);
   return OK;
 }
 
-static uint32_t bt_read_reg(uint32_t addr)
+static uint32_t rk3576_bt_read_reg(uint32_t addr)
 {
   return getreg32(addr);
 }
 
-static void bt_delay(int ms)
+static void rk3576_bt_delay(int ms)
 {
   up_mdelay(ms);
 }

@@ -10,6 +10,10 @@
 #include <nuttx/config.h>
 #include <stdint.h>
 
+#ifndef __ASSEMBLY__
+
+
+
 void rk3576_pmu_init(void);
 
 /* Power domain control */
@@ -31,5 +35,7 @@ uint32_t rk3576_pmu_get_int_status(void);
 
 void rk3576_pmu_scratch_write(uint32_t offset, uint32_t value);
 uint32_t rk3576_pmu_scratch_read(uint32_t offset);
+
+#endif /* __ASSEMBLY__ */
 
 #endif

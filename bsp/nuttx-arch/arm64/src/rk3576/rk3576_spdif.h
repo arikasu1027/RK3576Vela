@@ -10,10 +10,16 @@
 #include <nuttx/config.h>
 #include <stdint.h>
 
+#ifndef __ASSEMBLY__
+
+
+
 int rk3576_spdif_init(void);
 int rk3576_spdif_enable(void);
 int rk3576_spdif_disable(void);
 int rk3576_spdif_set_samplerate(int rate);
 int rk3576_spdif_write(const uint8_t *data, int len);
+
+#endif /* __ASSEMBLY__ */
 
 #endif

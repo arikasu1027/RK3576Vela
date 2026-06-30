@@ -12,6 +12,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#ifndef __ASSEMBLY__
+
+
+
 #define RK3576_VOP0              0
 #define RK3576_VOP1              1
 
@@ -81,5 +85,7 @@ int rk3576_vop_get_line(int vop);
 uint32_t rk3576_vop_get_version(int vop);
 int rk3576_vop_get_window_info(int vop, int win,
                                  struct rk3576_vop_window_info_s *info);
+
+#endif /* __ASSEMBLY__ */
 
 #endif

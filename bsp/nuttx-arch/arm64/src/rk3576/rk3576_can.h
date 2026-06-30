@@ -11,6 +11,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#ifndef __ASSEMBLY__
+
+
+
 #define RK3576_CAN0              0
 #define RK3576_CAN1              1
 
@@ -30,5 +34,7 @@ int rk3576_can_receive(int can, struct rk3576_can_msg_s *msg);
 int rk3576_can_enable(int can);
 int rk3576_can_disable(int can);
 uint32_t rk3576_can_get_status(int can);
+
+#endif /* __ASSEMBLY__ */
 
 #endif

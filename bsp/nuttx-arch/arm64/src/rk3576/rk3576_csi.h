@@ -12,6 +12,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#ifndef __ASSEMBLY__
+
+
+
 #define RK3576_CSI0              0
 #define RK3576_CSI1              1
 
@@ -50,5 +54,7 @@ int rk3576_csi_clear_status(int csi, uint32_t mask);
 int rk3576_csi_start_capture(int csi);
 int rk3576_csi_stop_capture(int csi);
 bool rk3576_csi_is_frame_done(int csi);
+
+#endif /* __ASSEMBLY__ */
 
 #endif
