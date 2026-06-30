@@ -65,7 +65,7 @@
 #define SPI_CTRLR0_FRF_MICROWIRE    (2 << SPI_CTRLR0_FRF_SHIFT)
 
 #define SPI_CTRLR0_SCPH             (1 << 6)   /* Clock phase */
-#define SPI_CTRLR0_SCPOl            (1 << 7)   /* Clock polarity */
+#define SPI_CTRLR0_SCPL            (1 << 7)   /* Clock polarity */
 
 #define SPI_CTRLR0_TMOD_SHIFT       8
 #define SPI_CTRLR0_TMOD_MASK        (3 << SPI_CTRLR0_TMOD_SHIFT)

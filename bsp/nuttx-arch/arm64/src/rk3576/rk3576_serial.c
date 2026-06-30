@@ -77,19 +77,32 @@
 
 #define RK3576_UART_REG(base, off) ((base) + (off))
 
-#define rk3576_uart_rbr(b)  getreg32(RK3576_UART_REG(b, RK3576_UART_RBR_OFFSET))
-#define rk3576_uart_thr(b, v) putreg32(v, RK3576_UART_REG(b, RK3576_UART_THR_OFFSET))
-#define rk3576_uart_dll(b)  getreg32(RK3576_UART_REG(b, RK3576_UART_DLL_OFFSET))
-#define rk3576_uart_dlh(b)  getreg32(RK3576_UART_REG(b, RK3576_UART_DLH_OFFSET))
-#define rk3576_uart_ier(b)  getreg32(RK3576_UART_REG(b, RK3576_UART_IER_OFFSET))
-#define rk3576_uart_iir(b)  getreg32(RK3576_UART_REG(b, RK3576_UART_IIR_OFFSET))
-#define rk3576_uart_fcr(b, v) putreg32(v, RK3576_UART_REG(b, RK3576_UART_FCR_OFFSET))
-#define rk3576_uart_lcr(b)  getreg32(RK3576_UART_REG(b, RK3576_UART_LCR_OFFSET))
-#define rk3576_uart_lcr_set(b, v) putreg32(v, RK3576_UART_REG(b, RK3576_UART_LCR_OFFSET))
-#define rk3576_uart_mcr(b)  getreg32(RK3576_UART_REG(b, RK3576_UART_MCR_OFFSET))
-#define rk3576_uart_lsr(b)  getreg32(RK3576_UART_REG(b, RK3576_UART_LSR_OFFSET))
-#define rk3576_uart_msr(b)  getreg32(RK3576_UART_REG(b, RK3576_UART_MSR_OFFSET))
-#define rk3576_uart_usr(b)  getreg32(RK3576_UART_REG(b, RK3576_UART_USR_OFFSET))
+#define rk3576_uart_rbr(b) \
+  getreg32(RK3576_UART_REG(b, RK3576_UART_RBR_OFFSET))
+#define rk3576_uart_thr(b, v) \
+  putreg32(v, RK3576_UART_REG(b, RK3576_UART_THR_OFFSET))
+#define rk3576_uart_dll(b) \
+  getreg32(RK3576_UART_REG(b, RK3576_UART_DLL_OFFSET))
+#define rk3576_uart_dlh(b) \
+  getreg32(RK3576_UART_REG(b, RK3576_UART_DLH_OFFSET))
+#define rk3576_uart_ier(b) \
+  getreg32(RK3576_UART_REG(b, RK3576_UART_IER_OFFSET))
+#define rk3576_uart_iir(b) \
+  getreg32(RK3576_UART_REG(b, RK3576_UART_IIR_OFFSET))
+#define rk3576_uart_fcr(b, v) \
+  putreg32(v, RK3576_UART_REG(b, RK3576_UART_FCR_OFFSET))
+#define rk3576_uart_lcr(b) \
+  getreg32(RK3576_UART_REG(b, RK3576_UART_LCR_OFFSET))
+#define rk3576_uart_lcr_set(b, v) \
+  putreg32(v, RK3576_UART_REG(b, RK3576_UART_LCR_OFFSET))
+#define rk3576_uart_mcr(b) \
+  getreg32(RK3576_UART_REG(b, RK3576_UART_MCR_OFFSET))
+#define rk3576_uart_lsr(b) \
+  getreg32(RK3576_UART_REG(b, RK3576_UART_LSR_OFFSET))
+#define rk3576_uart_msr(b) \
+  getreg32(RK3576_UART_REG(b, RK3576_UART_MSR_OFFSET))
+#define rk3576_uart_usr(b) \
+  getreg32(RK3576_UART_REG(b, RK3576_UART_USR_OFFSET))
 
 /* UART0 Settings should be same as U-Boot Bootloader */
 
@@ -1086,7 +1099,9 @@ static bool rk3576_uart_txempty(struct uart_dev_s *dev)
   const struct rk3576_uart_config *config = &port->config;
   bool empty;
 
-  /* TEMT bit (Bit 6 of LSR) is 1 when both THR and shift register are empty */
+  /* TEMT bit (Bit 6 of LSR) is 1 when both THR and shift
+   * register are empty
+   */
 
   empty = (rk3576_uart_lsr(config->uart) & RK3576_UART_LSR_TEMT) != 0;
 

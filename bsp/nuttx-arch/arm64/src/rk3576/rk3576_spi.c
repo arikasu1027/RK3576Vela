@@ -206,7 +206,7 @@ int rk3576_spi_set_mode(int bus, int mode)
   base = g_spi_base[bus];
 
   ctrl0 = getreg32(base + SPI_CTRLR0);
-  ctrl0 &= ~(SPI_CTRLR0_SCPH | SPI_CTRLR0_SCPOl);
+  ctrl0 &= ~(SPI_CTRLR0_SCPH | SPI_CTRLR0_SCPL);
 
   switch (mode)
     {
@@ -216,10 +216,10 @@ int rk3576_spi_set_mode(int bus, int mode)
         ctrl0 |= SPI_CTRLR0_SCPH;
         break;
       case RK3576_SPI_MODE_2:   /* CPOL=1, CPHA=0 */
-        ctrl0 |= SPI_CTRLR0_SCPOl;
+        ctrl0 |= SPI_CTRLR0_SCPL;
         break;
       case RK3576_SPI_MODE_3:   /* CPOL=1, CPHA=1 */
-        ctrl0 |= SPI_CTRLR0_SCPH | SPI_CTRLR0_SCPOl;
+        ctrl0 |= SPI_CTRLR0_SCPH | SPI_CTRLR0_SCPL;
         break;
       default:
         return -EINVAL;

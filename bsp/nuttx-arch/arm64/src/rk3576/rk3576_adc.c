@@ -145,7 +145,7 @@ static int rk3576_adc_wait_eoc(void)
 }
 
 /****************************************************************************
- * Name: rk3576_adc_startConversion
+ * Name: rk3576_adc_start_conversion
  *
  * Description:
  *   Start a single ADC conversion on the specified channel.
@@ -167,7 +167,8 @@ static int rk3576_adc_start_conversion(int channel)
 
   /* Clear any pending interrupts */
 
-  putreg32(SARADC_INTSTS_EOC | SARADC_INTSTS_OVF, g_saradc_base + SARADC_INTSTS);
+  putreg32(SARADC_INTSTS_EOC | SARADC_INTSTS_OVF,
+           g_saradc_base + SARADC_INTSTS);
 
   /* Configure and start conversion */
 
@@ -207,7 +208,8 @@ void rk3576_adc_init(void)
 
   /* Clear all interrupts */
 
-  putreg32(SARADC_INTSTS_EOC | SARADC_INTSTS_OVF, g_saradc_base + SARADC_INTSTS);
+  putreg32(SARADC_INTSTS_EOC | SARADC_INTSTS_OVF,
+           g_saradc_base + SARADC_INTSTS);
 
   /* Disable interrupts */
 

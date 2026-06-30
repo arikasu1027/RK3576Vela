@@ -39,6 +39,11 @@ int rk3576_crypto_aes_encrypt(int mode, int keybits,
   uint32_t base = RK3576_CRYPTO_ADDR;
   uint32_t ctrl = CRYPTO_AES_ENABLE;
 
+  if (keybits != 128 && keybits != 192 && keybits != 256)
+    {
+      return -EINVAL;
+    }
+
   ctrl |= (mode << 4);
   if (keybits == 256) ctrl |= CRYPTO_AES_KEY_256;
   else if (keybits == 192) ctrl |= CRYPTO_AES_KEY_192;

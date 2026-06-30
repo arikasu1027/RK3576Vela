@@ -164,13 +164,13 @@
 
 #ifdef CONFIG_ARCH_CHIP_RK3576
 
-/* IRQ Numbers (SPI level, from GICv3) — Rockchip RK3576 TRM */
+/* IRQ Numbers (SPI level, from GICv3) — Rockchip RK3576 TRM §8 */
 
-#define RK3576_UART0_IRQ            131
-#define RK3576_UART1_IRQ            130
-#define RK3576_UART2_IRQ            132
-#define RK3576_UART3_IRQ            133
-#define RK3576_UART4_IRQ            134
+#define RK3576_UART0_IRQ            108
+#define RK3576_UART1_IRQ            109
+#define RK3576_UART2_IRQ            110
+#define RK3576_UART3_IRQ            111
+#define RK3576_UART4_IRQ            112
 
 #endif /* CONFIG_ARCH_CHIP_RK3576 */
 

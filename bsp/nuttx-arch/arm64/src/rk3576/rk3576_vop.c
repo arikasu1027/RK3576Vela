@@ -84,21 +84,6 @@ static inline uint32_t vop_win_base(int vop, int win)
   return g_vop_base[vop] + (win * VOP_WIN_STRIDE);
 }
 
-static inline int vop_clamp(int val, int min, int max)
-{
-  if (val < min)
-    {
-      return min;
-    }
-
-  if (val > max)
-    {
-      return max;
-    }
-
-  return val;
-}
-
 /***************************************************************************
  * Public Functions
  ***************************************************************************/

@@ -85,7 +85,7 @@ int rk3576_can_set_bitrate(int can, int bitrate)
 {
   uint32_t base;
 
-  if (can < 0 || can >= RK3576_CAN_COUNT)
+  if (can < 0 || can >= RK3576_CAN_COUNT || bitrate <= 0)
     {
       return -EINVAL;
     }
