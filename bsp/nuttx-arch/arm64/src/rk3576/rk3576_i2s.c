@@ -540,12 +540,12 @@ void rk3576_i2s_start(int bus)
 
   /* Enable TX/RX based on current config */
 
-  {
-    uint32_t txcr = getreg32(base + I2S_TXCR);
-    uint32_t rxcr = getreg32(base + I2S_RXCR);
-    putreg32(txcr, base + I2S_TXCR);
-    putreg32(rxcr, base + I2S_RXCR);
-  }
+    {
+      uint32_t txcr = getreg32(base + I2S_TXCR);
+      uint32_t rxcr = getreg32(base + I2S_RXCR);
+      putreg32(txcr, base + I2S_TXCR);
+      putreg32(rxcr, base + I2S_RXCR);
+    }
 
   i2sinfo("I2S%d: started\n", bus);
 }
@@ -571,14 +571,14 @@ void rk3576_i2s_stop(int bus)
 
   /* Disable TX and RX */
 
-  {
-    uint32_t txcr = getreg32(base + I2S_TXCR);
-    uint32_t rxcr = getreg32(base + I2S_RXCR);
-    txcr &= ~I2S_TXCR_TXEN;
-    rxcr &= ~I2S_RXCR_RXEN;
-    putreg32(txcr, base + I2S_TXCR);
-    putreg32(rxcr, base + I2S_RXCR);
-  }
+    {
+      uint32_t txcr = getreg32(base + I2S_TXCR);
+      uint32_t rxcr = getreg32(base + I2S_RXCR);
+      txcr &= ~I2S_TXCR_TXEN;
+      rxcr &= ~I2S_RXCR_RXEN;
+      putreg32(txcr, base + I2S_TXCR);
+      putreg32(rxcr, base + I2S_RXCR);
+    }
 
   /* Clear FIFOs */
 
@@ -616,11 +616,11 @@ int rk3576_i2s_send(int bus, const uint16_t *data, int len)
 
   /* Enable TX */
 
-  {
-    uint32_t txcr = getreg32(base + I2S_TXCR);
-    txcr |= I2S_TXCR_TXEN;
-    putreg32(txcr, base + I2S_TXCR);
-  }
+    {
+      uint32_t txcr = getreg32(base + I2S_TXCR);
+      txcr |= I2S_TXCR_TXEN;
+      putreg32(txcr, base + I2S_TXCR);
+    }
 
   /* Send data */
 
@@ -670,11 +670,11 @@ int rk3576_i2s_recv(int bus, uint16_t *data, int len)
 
   /* Enable RX */
 
-  {
-    uint32_t rxcr = getreg32(base + I2S_RXCR);
-    rxcr |= I2S_RXCR_RXEN;
-    putreg32(rxcr, base + I2S_RXCR);
-  }
+    {
+      uint32_t rxcr = getreg32(base + I2S_RXCR);
+      rxcr |= I2S_RXCR_RXEN;
+      putreg32(rxcr, base + I2S_RXCR);
+    }
 
   /* Receive data */
 

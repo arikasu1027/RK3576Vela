@@ -350,12 +350,12 @@ int rk3576_spi_exchange(int bus, const uint8_t *txbuf,
 
   /* Set transfer mode to TX&RX */
 
-  {
-    uint32_t ctrl0 = getreg32(base + SPI_CTRLR0);
-    ctrl0 &= ~SPI_CTRLR0_TMOD_MASK;
-    ctrl0 |= SPI_CTRLR0_TMOD_TR;
-    putreg32(ctrl0, base + SPI_CTRLR0);
-  }
+    {
+      uint32_t ctrl0 = getreg32(base + SPI_CTRLR0);
+      ctrl0 &= ~SPI_CTRLR0_TMOD_MASK;
+      ctrl0 |= SPI_CTRLR0_TMOD_TR;
+      putreg32(ctrl0, base + SPI_CTRLR0);
+    }
 
   /* Transfer loop */
 

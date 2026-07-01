@@ -158,7 +158,7 @@ int rk3576_fb_init(int vop)
 
   /* Verify framebuffer address fits in 32-bit DMA address space */
 
-  if ((uintptr_t)fb->fbmem > 0xFFFFFFFF)
+  if ((uintptr_t)fb->fbmem > 0xffffffff)
     {
       _err("FB: Framebuffer address exceeds 32-bit DMA range\n");
       kmm_free(fb->fbmem);

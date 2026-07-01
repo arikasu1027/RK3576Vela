@@ -177,6 +177,7 @@ void arm64_usbinitialize(void)
 int up_rtc_initialize(void)
 {
   /* RTC is in PMU domain, initialized by bootloader */
+
   return OK;
 }
 

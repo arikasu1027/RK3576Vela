@@ -83,6 +83,7 @@ int rk3576_bluetooth_send(uint8_t type, const uint8_t *data, int len)
   UNUSED(len);
 
   /* HCI packet transmission via UART */
+
   /* In practice, this writes to the UART TX FIFO */
 
   return OK;
@@ -95,6 +96,7 @@ int rk3576_bluetooth_read(uint8_t *buf, int maxlen, int timeout_ms)
   UNUSED(timeout_ms);
 
   /* HCI packet reception via UART */
+
   /* In practice, this reads from the UART RX FIFO */
 
   return 0;
@@ -113,5 +115,9 @@ void rk3576_bluetooth_enable(bool enable)
       ginfo("BT: disabled\n");
     }
 }
+
+/***************************************************************************
+ * Private Functions
+ ***************************************************************************/
 
 #endif /* CONFIG_RK3576_BLUETOOTH */

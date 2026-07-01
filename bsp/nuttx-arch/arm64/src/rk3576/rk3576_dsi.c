@@ -100,13 +100,15 @@ static int rk3576_dsi_wait_cmd_done(uint32_t base)
   return -ETIMEDOUT;
 }
 
-static void rk3576_dphy_test_write(uint32_t base, uint32_t addr, uint8_t data)
+static void rk3576_dphy_test_write(uint32_t base, uint32_t addr,
+                                  uint8_t data)
   __attribute__((unused));
 
 static uint8_t rk3576_dphy_test_read(uint32_t base, uint32_t addr)
   __attribute__((unused));
 
-static void rk3576_dphy_test_write(uint32_t base, uint32_t addr, uint8_t data)
+static void rk3576_dphy_test_write(uint32_t base, uint32_t addr,
+                                  uint8_t data)
 {
   /* Set test mode: write */
 

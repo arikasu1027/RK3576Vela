@@ -131,7 +131,8 @@ bool rk3576_pcie_is_link_up(int pcie)
   return g_pcie[pcie].link_up;
 }
 
-uint32_t rk3576_pcie_read_config(int pcie, int bus, int dev, int func, int reg)
+uint32_t rk3576_pcie_read_config(int pcie, int bus, int dev,
+                                int func, int reg)
 {
   uint32_t base;
   uint32_t addr;
@@ -152,7 +153,8 @@ uint32_t rk3576_pcie_read_config(int pcie, int bus, int dev, int func, int reg)
 
   /* Read from config space */
 
-  uint32_t offset = (bus << 20) | (dev << 15) | (func << 12) | (reg & 0xfff);
+  uint32_t offset = (bus << 20) | (dev << 15) |
+                    (func << 12) | (reg & 0xfff);
   addr = base + 0x10000 + offset;
 
   return getreg32(addr);
@@ -176,10 +178,15 @@ void rk3576_pcie_write_config(int pcie, int bus, int dev, int func,
   putreg32(viewport, base + PCIE_ATU_VIEWPORT);
   putreg32(PCIE_ATU_ENABLE | PCIE_ATU_TYPE_CONFIG, base + PCIE_ATU_CTRL);
 
-  uint32_t offset = (bus << 20) | (dev << 15) | (func << 12) | (reg & 0xfff);
+  uint32_t offset = (bus << 20) | (dev << 15) |
+                    (func << 12) | (reg & 0xfff);
   addr = base + 0x10000 + offset;
 
   putreg32(val, addr);
 }
+
+/***************************************************************************
+ * Private Functions
+ ***************************************************************************/
 
 #endif /* CONFIG_RK3576_PCIE */

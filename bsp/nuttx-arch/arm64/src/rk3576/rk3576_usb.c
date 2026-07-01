@@ -271,7 +271,8 @@ static void rk3576_usb_set_fifo_sizes(int port)
 
   /* Set Host Periodic TX FIFO size and address */
 
-  putreg32((USB_PTX_FIFO_SIZE << 16) | (USB_RX_FIFO_SIZE + USB_NPTX_FIFO_SIZE),
+  putreg32((USB_PTX_FIFO_SIZE << 16) |
+           (USB_RX_FIFO_SIZE + USB_NPTX_FIFO_SIZE),
            base + HPTXFSIZ);
 }
 
@@ -417,6 +418,7 @@ int rk3576_usb_set_mode(int port, int mode)
   switch (mode)
     {
       case RK3576_USB_MODE_HOST:
+
         /* Configure for host mode */
 
         putreg32(HCFG_FSLSPCLKSEL_48MHZ | HCFG_FSLSSUPP, base + HCFG);
@@ -424,6 +426,7 @@ int rk3576_usb_set_mode(int port, int mode)
         break;
 
       case RK3576_USB_MODE_DEVICE:
+
         /* Configure for device mode */
 
         {
@@ -440,6 +443,7 @@ int rk3576_usb_set_mode(int port, int mode)
         break;
 
       case RK3576_USB_MODE_OTG:
+
         /* OTG mode - auto detect */
 
         g_usb_dev[port].mode = RK3576_USB_MODE_OTG;
@@ -485,7 +489,8 @@ int rk3576_usb_host_reset(int port)
   uinfo("USB%d: host reset\n", port);
 
   /* Note: Actual port reset requires specific register handling
-   * based on the exact DWC2 version. This is a placeholder. */
+   * based on the exact DWC2 version. This is a placeholder.
+   */
 
   g_usb_dev[port].connected = false;
 

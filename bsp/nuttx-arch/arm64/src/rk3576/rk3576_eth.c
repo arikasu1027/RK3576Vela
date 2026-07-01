@@ -58,7 +58,10 @@
 
 /* Default MAC address */
 
-static const uint8_t g_default_mac[6] = {0x02, 0x00, 0x00, 0x00, 0x00, 0x01};
+static const uint8_t g_default_mac[6] =
+{
+  0x02, 0x00, 0x00, 0x00, 0x00, 0x01
+};
 
 /****************************************************************************
  * Private Data
@@ -248,22 +251,22 @@ void rk3576_eth_init(int port)
    * - Speed and duplex
    */
 
-  {
-    uint32_t mac_config = 0;
+    {
+      uint32_t mac_config = 0;
 
-    /* Set interface mode */
+      /* Set interface mode */
 
-    switch (g_eth_dev[port].iface)
-      {
-        case RK3576_ETH_IF_MII:
-          mac_config |= ETH_MAC_CONFIG_MODE_MII;
-          break;
-        case RK3576_ETH_IF_RMII:
-          mac_config |= ETH_MAC_CONFIG_MODE_RMII;
-          break;
-        case RK3576_ETH_IF_RGMII:
-          mac_config |= ETH_MAC_CONFIG_MODE_RGMII;
-          break;
+      switch (g_eth_dev[port].iface)
+        {
+          case RK3576_ETH_IF_MII:
+            mac_config |= ETH_MAC_CONFIG_MODE_MII;
+            break;
+          case RK3576_ETH_IF_RMII:
+            mac_config |= ETH_MAC_CONFIG_MODE_RMII;
+            break;
+          case RK3576_ETH_IF_RGMII:
+            mac_config |= ETH_MAC_CONFIG_MODE_RGMII;
+            break;
       }
 
     /* Set speed */
@@ -329,22 +332,22 @@ int rk3576_eth_set_interface(int port, int iface)
 
   /* Update MAC config */
 
-  {
-    uint32_t base = g_eth_base[port];
-    uint32_t mac_config = getreg32(base + ETH_MAC_CONFIG);
-    mac_config &= ~ETH_MAC_CONFIG_MODE_MASK;
+    {
+      uint32_t base = g_eth_base[port];
+      uint32_t mac_config = getreg32(base + ETH_MAC_CONFIG);
+      mac_config &= ~ETH_MAC_CONFIG_MODE_MASK;
 
-    switch (iface)
-      {
-        case RK3576_ETH_IF_MII:
-          mac_config |= ETH_MAC_CONFIG_MODE_MII;
-          break;
-        case RK3576_ETH_IF_RMII:
-          mac_config |= ETH_MAC_CONFIG_MODE_RMII;
-          break;
-        case RK3576_ETH_IF_RGMII:
-          mac_config |= ETH_MAC_CONFIG_MODE_RGMII;
-          break;
+      switch (iface)
+        {
+          case RK3576_ETH_IF_MII:
+            mac_config |= ETH_MAC_CONFIG_MODE_MII;
+            break;
+          case RK3576_ETH_IF_RMII:
+            mac_config |= ETH_MAC_CONFIG_MODE_RMII;
+            break;
+          case RK3576_ETH_IF_RGMII:
+            mac_config |= ETH_MAC_CONFIG_MODE_RGMII;
+            break;
         default:
           return -EINVAL;
       }
@@ -378,19 +381,19 @@ int rk3576_eth_set_speed(int port, int speed)
 
   /* Update MAC config */
 
-  {
-    uint32_t base = g_eth_base[port];
-    uint32_t mac_config = getreg32(base + ETH_MAC_CONFIG);
-    mac_config &= ~ETH_MAC_CONFIG_FES;
+    {
+      uint32_t base = g_eth_base[port];
+      uint32_t mac_config = getreg32(base + ETH_MAC_CONFIG);
+      mac_config &= ~ETH_MAC_CONFIG_FES;
 
-    if (speed == RK3576_ETH_SPEED_100M ||
-        speed == RK3576_ETH_SPEED_1000M)
-      {
-        mac_config |= ETH_MAC_CONFIG_FES;
-      }
+      if (speed == RK3576_ETH_SPEED_100M ||
+          speed == RK3576_ETH_SPEED_1000M)
+        {
+          mac_config |= ETH_MAC_CONFIG_FES;
+        }
 
-    putreg32(mac_config, base + ETH_MAC_CONFIG);
-  }
+      putreg32(mac_config, base + ETH_MAC_CONFIG);
+    }
 
   ninfo("ETH%d: speed set to %d\n", port, speed);
   return OK;
@@ -418,18 +421,18 @@ int rk3576_eth_set_duplex(int port, int duplex)
 
   /* Update MAC config */
 
-  {
-    uint32_t base = g_eth_base[port];
-    uint32_t mac_config = getreg32(base + ETH_MAC_CONFIG);
-    mac_config &= ~ETH_MAC_CONFIG_DM;
+    {
+      uint32_t base = g_eth_base[port];
+      uint32_t mac_config = getreg32(base + ETH_MAC_CONFIG);
+      mac_config &= ~ETH_MAC_CONFIG_DM;
 
-    if (duplex == RK3576_ETH_FULL_DUPLEX)
-      {
-        mac_config |= ETH_MAC_CONFIG_DM;
-      }
+      if (duplex == RK3576_ETH_FULL_DUPLEX)
+        {
+          mac_config |= ETH_MAC_CONFIG_DM;
+        }
 
-    putreg32(mac_config, base + ETH_MAC_CONFIG);
-  }
+      putreg32(mac_config, base + ETH_MAC_CONFIG);
+    }
 
   ninfo("ETH%d: duplex set to %s\n", port,
         duplex == 0 ? "half" : "full");

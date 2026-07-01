@@ -144,41 +144,47 @@ int rk3576_rtc_get_time(struct tm *tm)
 
   /* Wait for RTC not busy */
 
-  {
-    int timeout = 100;
-    while (timeout--)
-      {
-        if (!(getreg32(g_rtc_base + RTC_STATUS) & RTC_STATUS_BUSY))
-          {
-            break;
-          }
+    {
+      int timeout = 100;
+      while (timeout--)
+        {
+          if (!(getreg32(g_rtc_base + RTC_STATUS) & RTC_STATUS_BUSY))
+            {
+              break;
+            }
 
-        up_udelay(10);
-      }
-  }
+          up_udelay(10);
+        }
+    }
 
   /* Read time registers atomically by retrying if values change */
 
-  {
-    uint32_t sec1, sec2, min1, min2, hr1, hr2;
-    int retries = 3;
+    {
+      uint32_t sec1;
+      uint32_t sec2;
+      uint32_t min1;
+      uint32_t min2;
+      uint32_t hr1;
+      uint32_t hr2;
+      int retries = 3;
 
-    do
-      {
-        sec1 = getreg32(g_rtc_base + RTC_SECONDS) & 0x3f;
-        min1 = getreg32(g_rtc_base + RTC_MINUTES) & 0x3f;
-        hr1  = getreg32(g_rtc_base + RTC_HOURS) & 0x1f;
+      do
+        {
+          sec1 = getreg32(g_rtc_base + RTC_SECONDS) & 0x3f;
+          min1 = getreg32(g_rtc_base + RTC_MINUTES) & 0x3f;
+          hr1  = getreg32(g_rtc_base + RTC_HOURS) & 0x1f;
 
-        sec2 = getreg32(g_rtc_base + RTC_SECONDS) & 0x3f;
+          sec2 = getreg32(g_rtc_base + RTC_SECONDS) & 0x3f;
         min2 = getreg32(g_rtc_base + RTC_MINUTES) & 0x3f;
         hr2  = getreg32(g_rtc_base + RTC_HOURS) & 0x1f;
-      }
-    while ((sec1 != sec2 || min1 != min2 || hr1 != hr2) && --retries > 0);
+        }
+      while ((sec1 != sec2 || min1 != min2 || hr1 != hr2) && --retries > 0);
 
-    tm->tm_sec = (int)sec2;
-    tm->tm_min = (int)min2;
-    tm->tm_hour = (int)hr2;
-  }
+      tm->tm_sec = (int)sec2;
+      tm->tm_min = (int)min2;
+      tm->tm_hour = (int)hr2;
+    }
+
   tm->tm_mday = (int)(getreg32(g_rtc_base + RTC_DAYS) & 0x1f);
   tm->tm_mon = (int)(getreg32(g_rtc_base + RTC_MONTHS) & 0x0f) - 1;
   tm->tm_year = (int)(getreg32(g_rtc_base + RTC_YEARS) & 0xff);
@@ -302,11 +308,11 @@ int rk3576_rtc_set_alarm(const struct tm *tm)
 
   /* Enable alarm interrupt */
 
-  {
-    uint32_t inten = getreg32(g_rtc_base + RTC_INTEN);
-    inten |= RTC_INTEN_ALARM_EN;
-    putreg32(inten, g_rtc_base + RTC_INTEN);
-  }
+    {
+      uint32_t inten = getreg32(g_rtc_base + RTC_INTEN);
+      inten |= RTC_INTEN_ALARM_EN;
+      putreg32(inten, g_rtc_base + RTC_INTEN);
+    }
 
   rtcinfo("RTC: alarm set to %04d-%02d-%02d %02d:%02d:%02d\n",
           year, tm->tm_mon + 1, tm->tm_mday,

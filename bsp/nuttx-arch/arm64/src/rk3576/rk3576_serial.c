@@ -413,25 +413,25 @@ static int rk3576_uart_setup(struct uart_dev_s *dev)
 
   /* Clear and reset FIFOs, then enable with trigger levels in one write */
 
-  {
-    uint32_t fcr = RK3576_UART_FCR_RFIFOR | RK3576_UART_FCR_XFIFOR |
-                   RK3576_UART_FCR_FIFOE | RK3576_UART_FCR_RT_HALF |
-                   RK3576_UART_FCR_TFT_HALF;
+    {
+      uint32_t fcr = RK3576_UART_FCR_RFIFOR | RK3576_UART_FCR_XFIFOR |
+                     RK3576_UART_FCR_FIFOE | RK3576_UART_FCR_RT_HALF |
+                     RK3576_UART_FCR_TFT_HALF;
 
 #ifdef CONFIG_UART1_DMA
-    /* Enable DMA handshake mode when DMA is configured.
-     * In this mode the UART generates DMA request signals
-     * instead of interrupts for data transfer.
-     */
+      /* Enable DMA handshake mode when DMA is configured.
+       * In this mode the UART generates DMA request signals
+       * instead of interrupts for data transfer.
+       */
 
-    if (config->uart != RK3576_UART0_ADDR)
-      {
-        fcr |= RK3576_UART_FCR_DMAM;
-      }
+      if (config->uart != RK3576_UART0_ADDR)
+        {
+          fcr |= RK3576_UART_FCR_DMAM;
+        }
 #endif
 
-    rk3576_uart_fcr(config->uart, fcr);
-  }
+      rk3576_uart_fcr(config->uart, fcr);
+    }
 
   /* Save current IER */
 

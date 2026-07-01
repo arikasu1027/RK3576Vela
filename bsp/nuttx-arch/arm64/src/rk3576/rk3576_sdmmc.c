@@ -226,18 +226,18 @@ static int rk3576_sdmmc_send_cmd(int ctrl, uint32_t cmd, uint32_t arg)
 
   /* Wait for command interface to be idle */
 
-  {
-    int timeout = 1000;
-    while (timeout--)
-      {
-        if (!(getreg32(base + SDMMC_CMD) & SDMMC_CMD_START))
-          {
-            break;
-          }
+    {
+      int timeout = 1000;
+      while (timeout--)
+        {
+          if (!(getreg32(base + SDMMC_CMD) & SDMMC_CMD_START))
+            {
+              break;
+            }
 
-        up_udelay(1);
-      }
-  }
+          up_udelay(1);
+        }
+    }
 
   /* Clear pending interrupts */
 
@@ -270,7 +270,8 @@ static int rk3576_sdmmc_send_cmd(int ctrl, uint32_t cmd, uint32_t arg)
  *
  ****************************************************************************/
 
-static int rk3576_sdmmc_send_cmd_no_resp(int ctrl, uint32_t cmd, uint32_t arg)
+static int rk3576_sdmmc_send_cmd_no_resp(int ctrl, uint32_t cmd,
+                                         uint32_t arg)
 {
   return rk3576_sdmmc_send_cmd(ctrl, cmd, arg);
 }
@@ -422,7 +423,7 @@ static int rk3576_sdmmc_init_card(int ctrl)
   /* Send CMD8 (SEND_IF_COND) for SD v2 */
 
   ret = rk3576_sdmmc_send_cmd_r7(ctrl,
-          SDMMC_CMD_START, 0x000001AA, NULL);
+          SDMMC_CMD_START, 0x000001aa, NULL);
   if (ret == OK)
     {
       /* SD v2 card detected */
@@ -446,7 +447,7 @@ static int rk3576_sdmmc_init_card(int ctrl)
           /* Send ACMD41 */
 
           ret = rk3576_sdmmc_send_cmd_r7(ctrl,
-                  SDMMC_CMD_START, 0x40FF8000, NULL);
+                  SDMMC_CMD_START, 0x40ff8000, NULL);
           if (ret < 0)
             {
               continue;
@@ -480,7 +481,7 @@ static int rk3576_sdmmc_init_card(int ctrl)
       for (int i = 0; i < 100; i++)
         {
           ret = rk3576_sdmmc_send_cmd_r1(ctrl,
-                  SDMMC_CMD_START, 0x40FF8000, NULL);
+                  SDMMC_CMD_START, 0x40ff8000, NULL);
           if (ret < 0)
             {
               continue;
@@ -730,18 +731,18 @@ void rk3576_sdmmc_set_clock(int ctrl, uint32_t freq)
 
   /* Wait for update to complete */
 
-  {
-    int timeout = 1000;
-    while (timeout--)
-      {
-        if (!(getreg32(base + SDMMC_CMD) & SDMMC_CMD_START))
-          {
-            break;
-          }
+    {
+      int timeout = 1000;
+      while (timeout--)
+        {
+          if (!(getreg32(base + SDMMC_CMD) & SDMMC_CMD_START))
+            {
+              break;
+            }
 
-        up_udelay(1);
-      }
-  }
+          up_udelay(1);
+        }
+    }
 
   /* Enable clock */
 
@@ -751,18 +752,18 @@ void rk3576_sdmmc_set_clock(int ctrl, uint32_t freq)
 
   putreg32(SDMMC_CMD_UPDATE_CLK | SDMMC_CMD_START, base + SDMMC_CMD);
 
-  {
-    int timeout = 1000;
-    while (timeout--)
-      {
-        if (!(getreg32(base + SDMMC_CMD) & SDMMC_CMD_START))
-          {
-            break;
-          }
+    {
+      int timeout = 1000;
+      while (timeout--)
+        {
+          if (!(getreg32(base + SDMMC_CMD) & SDMMC_CMD_START))
+            {
+              break;
+            }
 
-        up_udelay(1);
-      }
-  }
+          up_udelay(1);
+        }
+    }
 
   g_sdmmc_dev[ctrl].clock = freq;
 

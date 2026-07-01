@@ -205,7 +205,7 @@ int rk3576_can_receive(int can, struct rk3576_can_msg_s *msg)
 
   /* Acknowledge FIFO 0 read */
 
-  putreg32(1 << 0, base + CAN_RXFxA);
+  putreg32(1 << 0, base + CAN_RXFXA);
 
   return OK;
 }
@@ -261,5 +261,9 @@ uint32_t rk3576_can_get_status(int can)
 
   return getreg32(g_can_base[can] + CAN_IR);
 }
+
+/***************************************************************************
+ * Private Functions
+ ***************************************************************************/
 
 #endif /* CONFIG_RK3576_CAN */

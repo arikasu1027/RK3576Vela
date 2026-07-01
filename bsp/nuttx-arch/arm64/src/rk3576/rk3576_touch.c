@@ -92,7 +92,8 @@ int rk3576_touch_read(struct rk3576_touch_point_s *point)
   return OK;
 }
 
-int rk3576_touch_read_multi(struct rk3576_touch_point_s *points, int max_points)
+int rk3576_touch_read_multi(struct rk3576_touch_point_s *points,
+                            int max_points)
 {
   uint8_t buf[TOUCH_READ_LEN];
   int ret;
@@ -142,8 +143,10 @@ int rk3576_touch_read_multi(struct rk3576_touch_point_s *points, int max_points)
         {
           points[i].touched = true;
           points[i].id = buf[off + 5] & 0x0f;
-          points[i].x = ((uint16_t)(buf[off + 0] & 0x0f) << 8) | buf[off + 1];
-          points[i].y = ((uint16_t)(buf[off + 2] & 0x0f) << 8) | buf[off + 3];
+          points[i].x = ((uint16_t)(buf[off + 0] & 0x0f) << 8) |
+                        buf[off + 1];
+          points[i].y = ((uint16_t)(buf[off + 2] & 0x0f) << 8) |
+                        buf[off + 3];
           points[i].pressure = (buf[off + 4] >> 0) & 0xff;
         }
     }
@@ -155,5 +158,9 @@ int rk3576_touch_get_max_points(void)
 {
   return g_touch.max_points;
 }
+
+/***************************************************************************
+ * Private Functions
+ ***************************************************************************/
 
 #endif /* CONFIG_RK3576_TOUCH */

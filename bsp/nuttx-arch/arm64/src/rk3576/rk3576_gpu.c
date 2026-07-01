@@ -225,18 +225,18 @@ int rk3576_gpu_power_on(void)
 
   /* Wait for power on */
 
-  {
-    int timeout = 1000;
-    while (timeout--)
-      {
-        if (rk3576_gpu_read_reg(GPU_INT_RAWSTAT) & GPU_INT_RESET_COMPLETED)
-          {
-            break;
-          }
+    {
+      int timeout = 1000;
+      while (timeout--)
+        {
+          if (rk3576_gpu_read_reg(GPU_INT_RAWSTAT) & GPU_INT_RESET_COMPLETED)
+            {
+              break;
+            }
 
-        up_udelay(10);
-      }
-  }
+          up_udelay(10);
+        }
+    }
 
   /* Clear interrupts */
 

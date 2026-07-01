@@ -538,7 +538,9 @@ int rk3576_gpio_irq_settype(unsigned int pin, unsigned int type)
         break;
 
       case GPIO_IRQTYPE_BOTHEDGE:
+
         /* Use INT_TYPE bit = 0 (level) and handle both in handler */
+
         int_type &= ~(1u << offset);
         int_polarity |= (1u << offset);
         break;

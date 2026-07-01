@@ -487,6 +487,7 @@ int rk3576_i2c_write(int bus, const uint8_t *data, int len)
     }
 
 err_out:
+
   /* Generate STOP regardless of error */
 
   rk3576_i2c_send_stop(bus);
@@ -572,6 +573,7 @@ int rk3576_i2c_read(int bus, uint8_t *data, int len)
     }
 
 err_out:
+
   /* Generate STOP */
 
   rk3576_i2c_send_stop(bus);
@@ -714,18 +716,18 @@ int rk3576_i2c_writeread(int bus, const uint8_t *wbuf, int wlen,
 
   /* Wait for START */
 
-  {
-    int timeout = I2C_TIMEOUT_US;
-    while (timeout--)
-      {
-        if (!(getreg32(base + I2C_CON) & I2C_CON_START))
-          {
-            break;
-          }
+    {
+      int timeout = I2C_TIMEOUT_US;
+      while (timeout--)
+        {
+          if (!(getreg32(base + I2C_CON) & I2C_CON_START))
+            {
+              break;
+            }
 
-        up_udelay(1);
-      }
-  }
+          up_udelay(1);
+        }
+    }
 
   /* Switch to RX mode */
 
@@ -755,6 +757,7 @@ int rk3576_i2c_writeread(int bus, const uint8_t *wbuf, int wlen,
     }
 
 err_out:
+
   /* Generate STOP */
 
   rk3576_i2c_send_stop(bus);
@@ -801,6 +804,7 @@ int rk3576_i2c_reset(int bus)
   for (int i = 0; i < I2C_BUS_CLEAR_TIMEOUT; i++)
     {
       /* Toggle SCL via GPIO bit-bang would be needed here */
+
       /* For now, just re-enable the controller */
     }
 

@@ -16,6 +16,7 @@
 void rk3576_ddr_init(void)
 {
   /* DDR is typically initialized by bootloader (BL2/BL31) */
+
   /* This driver provides status query only */
 
   ginfo("DDR: initialized (by bootloader)\n");
@@ -30,6 +31,7 @@ bool rk3576_ddr_is_ready(void)
 uint32_t rk3576_ddr_get_size(void)
 {
   /* DDR size is determined by hardware strapping */
+
   /* Common configurations: 2GB, 4GB, 8GB */
 
   if (rk3576_ddr_is_ready())
@@ -42,3 +44,7 @@ uint32_t rk3576_ddr_get_size(void)
 
   return 0;
 }
+
+/****************************************************************************
+ * Private Functions
+ ****************************************************************************/

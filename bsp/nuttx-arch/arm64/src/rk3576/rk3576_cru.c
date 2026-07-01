@@ -15,6 +15,7 @@
 void rk3576_cru_init(void)
 {
   /* CRU is typically initialized by bootloader */
+
   /* Just configure basic clock gating */
 
   ginfo("CRU: initialized\n");
@@ -98,3 +99,7 @@ void rk3576_cru_softrst(int reg, int bit)
   up_udelay(10);
   putreg32(0, base + CRU_SOFTRST_CON(reg));
 }
+
+/****************************************************************************
+ * Private Functions
+ ****************************************************************************/

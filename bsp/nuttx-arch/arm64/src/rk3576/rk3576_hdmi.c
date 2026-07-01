@@ -66,6 +66,7 @@ const uint32_t g_hdmi_base = RK3576_HDMI_ADDR;
 static const struct rk3576_hdmi_timing_s g_hdmi_timings[] =
 {
   /* 640x480@60Hz */
+
   {
     .hactive = 640, .hsync_start = 656, .hsync_end = 752, .htotal = 800,
     .vactive = 480, .vsync_start = 490, .vsync_end = 492, .vtotal = 525,
@@ -73,6 +74,7 @@ static const struct rk3576_hdmi_timing_s g_hdmi_timings[] =
   },
 
   /* 800x600@60Hz */
+
   {
     .hactive = 800, .hsync_start = 840, .hsync_end = 968, .htotal = 1056,
     .vactive = 600, .vsync_start = 601, .vsync_end = 605, .vtotal = 628,
@@ -80,6 +82,7 @@ static const struct rk3576_hdmi_timing_s g_hdmi_timings[] =
   },
 
   /* 1024x768@60Hz */
+
   {
     .hactive = 1024, .hsync_start = 1048, .hsync_end = 1184, .htotal = 1344,
     .vactive = 768, .vsync_start = 771, .vsync_end = 777, .vtotal = 806,
@@ -87,6 +90,7 @@ static const struct rk3576_hdmi_timing_s g_hdmi_timings[] =
   },
 
   /* 1280x720@60Hz */
+
   {
     .hactive = 1280, .hsync_start = 1328, .hsync_end = 1440, .htotal = 1650,
     .vactive = 720, .vsync_start = 725, .vsync_end = 730, .vtotal = 750,
@@ -94,6 +98,7 @@ static const struct rk3576_hdmi_timing_s g_hdmi_timings[] =
   },
 
   /* 1280x1024@60Hz */
+
   {
     .hactive = 1280, .hsync_start = 1328, .hsync_end = 1440, .htotal = 1688,
     .vactive = 1024, .vsync_start = 1025, .vsync_end = 1028, .vtotal = 1066,
@@ -101,6 +106,7 @@ static const struct rk3576_hdmi_timing_s g_hdmi_timings[] =
   },
 
   /* 1920x1080@60Hz */
+
   {
     .hactive = 1920, .hsync_start = 2008, .hsync_end = 2052, .htotal = 2200,
     .vactive = 1080, .vsync_start = 1084, .vsync_end = 1089, .vtotal = 1125,
@@ -240,10 +246,10 @@ static int rk3576_hdmi_config_video(int resolution)
         ctrl |= HDMI_VIDEO_CTRL_FORMAT_RGB565;
         break;
       case RK3576_HDMI_FMT_YCBCR444:
-        ctrl |= HDMI_VIDEO_CTRL_FORMAT_YCbCr444;
+        ctrl |= HDMI_VIDEO_CTRL_FORMAT_YCBCR444;
         break;
       case RK3576_HDMI_FMT_YCBCR422:
-        ctrl |= HDMI_VIDEO_CTRL_FORMAT_YCbCr422;
+        ctrl |= HDMI_VIDEO_CTRL_FORMAT_YCBCR422;
         break;
     }
 
@@ -316,19 +322,19 @@ void rk3576_hdmi_init(void)
 
   /* Wait for system to be ready */
 
-  {
-    int timeout = HDMI_TIMEOUT_US;
-    while (timeout--)
-      {
-        uint32_t status = getreg32(g_hdmi_base + HDMI_SYS_STATUS);
-        if (status & HDMI_SYS_STATUS_TX_READY)
-          {
-            break;
-          }
+    {
+      int timeout = HDMI_TIMEOUT_US;
+      while (timeout--)
+        {
+          uint32_t status = getreg32(g_hdmi_base + HDMI_SYS_STATUS);
+          if (status & HDMI_SYS_STATUS_TX_READY)
+            {
+              break;
+            }
 
-        up_udelay(100);
-      }
-  }
+          up_udelay(100);
+        }
+    }
 
   /* Check for connected display */
 

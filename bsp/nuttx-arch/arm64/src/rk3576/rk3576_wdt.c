@@ -89,13 +89,16 @@ static int rk3576_wdt_calc_torr(uint32_t timeout_ms)
   int torr;
 
   /* Find TORR value (upper 4 bits of 28-bit counter) */
+
   /* Counter = (0xFFFFFFF) >> (16 - TORR) */
+
   /* Timeout = Counter / CLK_FREQ * 1000 ms */
 
   for (torr = 0; torr <= 15; torr++)
     {
       uint32_t counter = 0xfffffff >> (16 - torr);
-      uint32_t timeout_us = (uint32_t)((uint64_t)counter * 1000000 / WDT_CLK_FREQ);
+      uint32_t timeout_us = (uint32_t)((uint64_t)counter * 1000000 /
+                            WDT_CLK_FREQ);
 
       if (timeout_us >= timeout_ms * 1000)
         {
